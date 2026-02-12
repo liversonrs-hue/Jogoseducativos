@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogos Educativos - Portal de Aprendizagem</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        header h1 {
+            font-size: 3.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.3em;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .game-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+        }
+
+        .game-card-header {
+            height: 150px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4em;
+        }
+
+        .game-card-content {
+            padding: 25px;
+        }
+
+        .game-card-title {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .game-card-description {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .game-card-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: transform 0.2s ease;
+        }
+
+        .game-card-button:hover {
+            transform: scale(1.05);
+        }
+
+        .game-card-button:active {
+            transform: scale(0.95);
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            padding: 30px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 10px;
+            margin-top: 50px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎮 Jogos Educativos</h1>
+            <p>Aprenda enquanto se diverte!</p>
+        </header>
+
+        <div class="games-grid">
+            <div class="game-card">
+                <div class="game-card-header">🔢</div>
+                <div class="game-card-content">
+                    <div class="game-card-title">Tabuada</div>
+                    <div class="game-card-description">
+                        Pratique multiplicação de forma divertida! Teste seus conhecimentos matemáticos.
+                    </div>
+                    <button class="game-card-button" onclick="window.location.href='jogo1.html'">
+                        Jogar Agora
+                    </button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-card-header">🔤</div>
+                <div class="game-card-content">
+                    <div class="game-card-title">Alfabeto</div>
+                    <div class="game-card-description">
+                        Aprenda as letras do alfabeto com atividades interativas e divertidas.
+                    </div>
+                    <button class="game-card-button" onclick="window.location.href='jogo2.html'">
+                        Jogar Agora
+                    </button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-card-header">🌍</div>
+                <div class="game-card-content">
+                    <div class="game-card-title">Capitais</div>
+                    <div class="game-card-description">
+                        Descubra as capitais dos países do mundo em um jogo desafiador.
+                    </div>
+                    <button class="game-card-button" onclick="window.location.href='jogo3.html'">
+                        Jogar Agora
+                    </button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-card-header">🎨</div>
+                <div class="game-card-content">
+                    <div class="game-card-title">Cores</div>
+                    <div class="game-card-description">
+                        Aprenda sobre cores enquanto se diverte com desafios visuais.
+                    </div>
+                    <button class="game-card-button" onclick="window.location.href='jogo4.html'">
+                        Jogar Agora
+                    </button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-card-header">🧠</div>
+                <div class="game-card-content">
+                    <div class="game-card-title">Memória</div>
+                    <div class="game-card-description">
+                        Teste sua memória combinando pares de cartas em um jogo clássico.
+                    </div>
+                    <button class="game-card-button" onclick="window.location.href='jogo5.html'">
+                        Jogar Agora
+                    </button>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <div class="game-card-header">📚</div>
+                <div class="game-card-content">
+                    <div class="game-card-title">Vocabulário</div>
+                    <div class="game-card-description">
+                        Expanda seu vocabulário com palavras novas e exercícios de associação.
+                    </div>
+                    <button class="game-card-button" onclick="window.location.href='jogo6.html'">
+                        Jogar Agora
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 Jogos Educativos. Desenvolvido com ❤️ para educação.</p>
+        </footer>
+    </div>
+</body>
+</html>
