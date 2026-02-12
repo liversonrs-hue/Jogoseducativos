@@ -1,93 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Capitals Quiz Game</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.55.2/phaser.min.js"></script>
+    <title>Jogo 3</title>
     <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-        }
+        body { font-family: Arial, sans-serif; }
+        .container { max-width: 600px; margin: auto; padding: 20px; }
+        .score { font-size: 24px; margin: 20px 0; }
+        button { padding: 10px 15px; margin: 5px; cursor: pointer; }
     </style>
 </head>
 <body>
+    <div class="container">
+        <h1>Jogo 3</h1>
+        <div class="score">Score: <span id="score">0</span></div>
+        <button id="startBtn">Start Game</button>
+        <div id="gameArea"></div>
+    </div>
     <script>
-        const config = {
-            type: Phaser.AUTO,
-            width: 800,
-            height: 600,
-            physics: {
-                default: 'arcade',
-                arcade: {
-                    gravity: 0,
-                    debug: false
-                }
-            },
-            scene: {
-                preload: preload,
-                create: create,
-                update: update
+        let score = 0;
+        const scoreDisplay = document.getElementById('score');
+        const gameArea = document.getElementById('gameArea');
+        const startBtn = document.getElementById('startBtn');
+
+        startBtn.addEventListener('click', startGame);
+
+        function startGame() {
+            score = 0;
+            scoreDisplay.textContent = score;
+            gameArea.innerHTML = '';
+            createGameElements();
+        }
+
+        function createGameElements() {
+            // Simple game logic to add elements
+            for (let i = 0; i < 10; i++) {
+                const button = document.createElement('button');
+                button.textContent = 'Click me';
+                button.onclick = () => { score++; scoreDisplay.textContent = score; };
+                gameArea.appendChild(button);
             }
-        };
-
-        const game = new Phaser.Game(config);
-
-        let questions = [
-            { question: "What is the capital of France?", answers: ["Berlin", "Madrid", "Paris", "Rome"], correct: 2 },
-            { question: "What is the capital of Germany?", answers: ["Berlin", "Lisbon", "Vienna", "Brussels"], correct: 0 },
-            { question: "What is the capital of Italy?", answers: ["Athens", "Lisbon", "Rome", "Madrid"], correct: 2 },
-            { question: "What is the capital of Spain?", answers: ["Madrid", "Malta", "Andorra", "Paris"], correct: 0 }
-        ];
-        let currentQuestionIndex = 0;
-
-        function preload() {
-            // Load any assets if needed
-        }
-
-        function create() {
-            askQuestion();
-        }
-
-        function askQuestion() {
-            const question = questions[currentQuestionIndex];
-            const questionText = this.add.text(400, 100, question.question, {
-                fontSize: '32px',
-                fill: '#fff'
-            }).setOrigin(0.5);
-
-            question.answers.forEach((answer, index) => {
-                const answerText = this.add.text(400, 200 + (index * 50), answer, {
-                    fontSize: '24px',
-                    fill: '#0f0'
-                }).setOrigin(0.5);
-                answerText.setInteractive();
-                answerText.on('pointerdown', () => handleAnswer(index));
-            });
-        }
-
-        function handleAnswer(selectedAnswer) {
-            const question = questions[currentQuestionIndex];
-            if (selectedAnswer === question.correct) {
-                alert('Correct!');
-            } else {
-                alert('Wrong!');
-            }
-            currentQuestionIndex++;
-            if (currentQuestionIndex < questions.length) {
-                this.clear();
-                askQuestion();
-            } else {
-                const finalText = this.add.text(400, 300, 'Quiz Finished!', {
-                    fontSize: '32px',
-                    fill: '#fff'
-                }).setOrigin(0.5);
-            }
-        }
-
-        function update() {
-            // Game update logic
         }
     </script>
 </body>
