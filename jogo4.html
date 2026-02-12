@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educational Colors Game</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.55.2/phaser.js"></script>
+    <style>
+        body { display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f0f0f0; }
+        canvas { border: 1px solid #000; }
+    </style>
+</head>
+<body>
+    <script>
+        const config = {
+            type: Phaser.AUTO,
+            width: 800,
+            height: 600,
+            scene: {
+                preload: preload,
+                create: create,
+                update: update
+            }
+        };
+
+        const game = new Phaser.Game(config);
+
+        function preload() {
+            this.load.image('red', 'path/to/red.png');
+            this.load.image('blue', 'path/to/blue.png');
+            this.load.image('green', 'path/to/green.png');
+            this.load.image('yellow', 'path/to/yellow.png');
+            this.load.image('target', 'path/to/target.png');
+        }
+
+        function create() {
+            this.colors = ['red', 'blue', 'green', 'yellow'];
+            this.score = 0;
+            this.text = this.add.text(10, 10, 'Score: 0', { fontSize: '32px', fill: '#000' });
+            this.createTarget();
+        }
+
+        function createTarget() {
+            const color = Phaser.Utils.Array.GetRandom(this.colors);
+            const target = this.add.image(400, 300, color);
+            target.setInteractive();
+            target.on('pointerdown', () => {
+                this.score += 10;
+                this.text.setText('Score: ' + this.score);
+                this.createTarget();
+            });
+        }
+
+        function update() {
+            // game logic can go here
+        }
+    </script>
+</body>
+</html>
