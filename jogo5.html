@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Matching Game</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.55.2/phaser.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        #game {
+            border: 2px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <div id="game"></div>
+    <script>
+        const config = {
+            type: Phaser.AUTO,
+            width: 800,
+            height: 600,
+            scene: {
+                preload: preload,
+                create: create,
+                update: update
+            },
+            physics: {
+                default: 'arcade',
+                arcade: {
+                    gravity: { y: 0 },
+                    debug: false
+                }
+            }
+        };
+
+        const game = new Phaser.Game(config);
+
+        let cards = [];
+        let cardValues = [1, 2, 1, 2]; // Adjust numbers for matching pairs
+        let flippedCards = [];
+        let canFlip = true;
+
+        function preload() {
+            this.load.image('card', 'path/to/card_image.png'); // Set path to your card image
+        }
+
+        function create() {
+            for (let i = 0; i < cardValues.length; i++) {
+                let card = this.add.sprite(200 + (i * 100), 300, 'card').setInteractive();
+                card.value = cardValues[i];
+                card.flipState = false;
+                card.on('pointerdown', flipCard.bind(this, card));
+                cards.push(card);
+            }
+        }
+
+        function flipCard(card) {
+            if (!canFlip || card.flipState) return;
+            card.flipState = true;
+            card.setTexture('card_flipped'); // Define card_flipped in preload
+            flippedCards.push(card);
+
+            if (flippedCards.length === 2) {
+                canFlip = false;
+                checkMatch();
+            }
+        }
+
+        function checkMatch() {
+            const [firstCard, secondCard] = flippedCards;
+            if (firstCard.value === secondCard.value) {
+                // Match found
+                flippedCards = [];
+                canFlip = true;
+            } else {
+                // No match
+                setTimeout(() => {
+                    firstCard.flipState = false;
+                    secondCard.flipState = false;
+                    firstCard.setTexture('card'); // Reset texture
+                    secondCard.setTexture('card');
+                    flippedCards = [];
+                    canFlip = true;
+                }, 1000);
+            }
+        }
+
+        function update() {
+            // Optional update logic
+        }
+    </script>
+</body>
+</html>
