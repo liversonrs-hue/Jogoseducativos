@@ -1,99 +1,64 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Memory Matching Game</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.55.2/phaser.min.js"></script>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0;
-        }
-        #game {
-            border: 2px solid #000;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memory Game</title>
+  <style>
+    body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f0f0f0; }
+    .grid { display: grid; grid-template-columns: repeat(4, 100px); gap: 10px; }
+    .card { width: 100px; height: 100px; background-color: #fff; display: flex; justify-content: center; align-items: center; cursor: pointer; border: 1px solid #ccc; }
+    .matched { background-color: #4caf50; }
+    .hidden { visibility: hidden; }
+  </style>
 </head>
 <body>
-    <div id="game"></div>
-    <script>
-        const config = {
-            type: Phaser.AUTO,
-            width: 800,
-            height: 600,
-            scene: {
-                preload: preload,
-                create: create,
-                update: update
-            },
-            physics: {
-                default: 'arcade',
-                arcade: {
-                    gravity: { y: 0 },
-                    debug: false
-                }
-            }
-        };
+  <div class="grid" id="gameBoard"></div>
+  <script>
+    const cardArray = ['A', 'A', 'B', 'B', 'C', 'C', 'D', 'D'];
+    let cardChosen = [], cardChosenId = [];
+    const gameBoard = document.getElementById('gameBoard');
+    cardArray.sort(() => 0.5 - Math.random());
 
-        const game = new Phaser.Game(config);
+    function createBoard() {
+      for (let i = 0; i < cardArray.length; i++) {
+        const card = document.createElement('div');
+        card.setAttribute('data-id', i);
+        card.classList.add('card');
+        card.addEventListener('click', flipCard);
+        gameBoard.appendChild(card);
+      }
+    }
 
-        let cards = [];
-        let cardValues = [1, 2, 1, 2]; // Adjust numbers for matching pairs
-        let flippedCards = [];
-        let canFlip = true;
+    function flipCard() {
+      const selected = this;
+      const cardId = selected.getAttribute('data-id');
+      selected.textContent = cardArray[cardId];
+      cardChosen.push(cardArray[cardId]);
+      cardChosenId.push(cardId);
 
-        function preload() {
-            this.load.image('card', 'path/to/card_image.png'); // Set path to your card image
-        }
+      if (cardChosen.length === 2) {
+        setTimeout(checkMatch, 500);
+      }
+    }
 
-        function create() {
-            for (let i = 0; i < cardValues.length; i++) {
-                let card = this.add.sprite(200 + (i * 100), 300, 'card').setInteractive();
-                card.value = cardValues[i];
-                card.flipState = false;
-                card.on('pointerdown', flipCard.bind(this, card));
-                cards.push(card);
-            }
-        }
+    function checkMatch() {
+      const cards = document.querySelectorAll('.card');
+      const [firstId, secondId] = cardChosenId;
+      if (firstId === secondId) {
+        cards[firstId].textContent = '';
+      } else if (cardChosen[0] === cardChosen[1]) {
+        cards[firstId].classList.add('matched');
+        cards[secondId].classList.add('matched');
+      } else {
+        cards[firstId].textContent = '';
+        cards[secondId].textContent = '';
+      }
+      cardChosen = [];
+      cardChosenId = [];
+    }
 
-        function flipCard(card) {
-            if (!canFlip || card.flipState) return;
-            card.flipState = true;
-            card.setTexture('card_flipped'); // Define card_flipped in preload
-            flippedCards.push(card);
-
-            if (flippedCards.length === 2) {
-                canFlip = false;
-                checkMatch();
-            }
-        }
-
-        function checkMatch() {
-            const [firstCard, secondCard] = flippedCards;
-            if (firstCard.value === secondCard.value) {
-                // Match found
-                flippedCards = [];
-                canFlip = true;
-            } else {
-                // No match
-                setTimeout(() => {
-                    firstCard.flipState = false;
-                    secondCard.flipState = false;
-                    firstCard.setTexture('card'); // Reset texture
-                    secondCard.setTexture('card');
-                    flippedCards = [];
-                    canFlip = true;
-                }, 1000);
-            }
-        }
-
-        function update() {
-            // Optional update logic
-        }
-    </script>
+    createBoard();
+  </script>
 </body>
 </html>
