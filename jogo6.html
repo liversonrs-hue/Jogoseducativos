@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Game</title>
+    <script src="https://cdn.rawgit.com/photonstorm/phaser/v2.6.2/build/phaser.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; }
+    </style>
+</head>
+<body>
+    <h1>Aprenda Vocabulário em Português</h1>
+    <div id="gameContainer"></div>
+    <script>
+        var game = new Phaser.Game(800, 600, Phaser.AUTO, 'gameContainer');
+
+        var mainState = {
+            preload: function() {
+                // Carregando imagens
+                game.load.image('apple', 'path/to/apple.png');
+                game.load.image('banana', 'path/to/banana.png');
+                // Adicione mais palavras e imagens conforme necessário
+            },
+
+            create: function() {
+                game.stage.backgroundColor = '#ffffff';
+                this.score = 0;
+                this.scoreText = game.add.text(16, 16, 'Pontos: 0', { fontSize: '32px', fill: '#000' });
+
+                // Inicie o jogo
+                this.startGame();
+            },
+
+            startGame: function() {
+                // Lógica para criar o jogo e apresentar as palavras e imagens
+                // Utilize um sistema de quebras de palavra e associação
+            },
+
+            update: function() {
+                // Lógica para o loop de jogo (também pode verificar respostas corretas)
+            }
+        };
+
+        game.state.add('main', mainState);
+        game.state.start('main');
+    </script>
+</body>
+</html>
