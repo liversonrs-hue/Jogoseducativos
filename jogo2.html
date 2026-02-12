@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo do Alfabeto</title>
+    <script src="https://cdn.rawgit.com/photonstorm/phaser/master/build/phaser.js"></script>
+</head>
+<body>
+    <script>
+        const config = {
+            type: Phaser.AUTO,
+            width: 800,
+            height: 600,
+            scene: {
+                preload: preload,
+                create: create,
+                update: update
+            }
+        };
+
+        const game = new Phaser.Game(config);
+
+        let letters;
+
+        function preload() {
+            this.load.audio('sound', 'path/to/sound.mp3'); // Add sound files for feedback
+            // Load letter images or sprites here
+        }
+
+        function create() {
+            letters = this.physics.add.group();
+
+            const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+            alphabet.forEach((letter, index) => {
+                const text = this.add.text(100 * index, 200, letter, { fontSize: '32px', fill: '#fff' });
+                text.setInteractive();
+                text.on('pointerdown', () => {
+                    this.sound.play('sound'); // Play sound for the letter
+                });
+                letters.add(text);
+            });
+        }
+
+        function update() {
+            // Update logic if needed
+        }
+    </script>
+</body>
+</html>
