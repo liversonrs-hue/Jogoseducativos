@@ -1,58 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Educational Colors Game</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.55.2/phaser.js"></script>
+    <title>Jogo Educativo</title>
     <style>
-        body { display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f0f0f0; }
-        canvas { border: 1px solid #000; }
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f4f4f4; }
+        h1 { text-align: center; }
+        .button { display: inline-block; padding: 10px 20px; margin: 10px; background-color: #008cba; color: white; text-decoration: none; border-radius: 5px; }
+        .button:hover { background-color: #005f6b; }
     </style>
 </head>
 <body>
+    <h1>Bem-vindo ao Jogo Educativo</h1>
+    <a class="button" href="#" onclick="startGame()">Iniciar Jogo</a>
+    <div id="gameArea" style="display:none;">
+        <p id="question"></p>
+        <input type="text" id="answer" placeholder="Digite sua resposta...">
+        <button onclick="checkAnswer()">Responder</button>
+        <p id="result"></p>
+    </div>
     <script>
-        const config = {
-            type: Phaser.AUTO,
-            width: 800,
-            height: 600,
-            scene: {
-                preload: preload,
-                create: create,
-                update: update
+        const questions = [
+            { question: 'Qual é 2 + 2?', answer: '4' },
+            { question: 'Qual é o capital da França?', answer: 'Paris' },
+            { question: 'Qual é 5 * 6?', answer: '30' }
+        ];
+        let currentQuestionIndex = 0;
+
+        function startGame() {
+            document.getElementById('gameArea').style.display = 'block';
+            document.getElementById('result').innerText = '';
+            currentQuestionIndex = 0;
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const questionElement = document.getElementById('question');
+            if (currentQuestionIndex < questions.length) {
+                questionElement.innerText = questions[currentQuestionIndex].question;
+            } else {
+                questionElement.innerText = 'Fim do Jogo!';
+                document.getElementById('answer').style.display = 'none';
             }
-        };
-
-        const game = new Phaser.Game(config);
-
-        function preload() {
-            this.load.image('red', 'path/to/red.png');
-            this.load.image('blue', 'path/to/blue.png');
-            this.load.image('green', 'path/to/green.png');
-            this.load.image('yellow', 'path/to/yellow.png');
-            this.load.image('target', 'path/to/target.png');
         }
 
-        function create() {
-            this.colors = ['red', 'blue', 'green', 'yellow'];
-            this.score = 0;
-            this.text = this.add.text(10, 10, 'Score: 0', { fontSize: '32px', fill: '#000' });
-            this.createTarget();
-        }
-
-        function createTarget() {
-            const color = Phaser.Utils.Array.GetRandom(this.colors);
-            const target = this.add.image(400, 300, color);
-            target.setInteractive();
-            target.on('pointerdown', () => {
-                this.score += 10;
-                this.text.setText('Score: ' + this.score);
-                this.createTarget();
-            });
-        }
-
-        function update() {
-            // game logic can go here
+        function checkAnswer() {
+            const answer = document.getElementById('answer').value;
+            const resultElement = document.getElementById('result');
+            if (currentQuestionIndex < questions.length) {
+                if (answer === questions[currentQuestionIndex].answer) {
+                    resultElement.innerText = 'Correto!';
+                } else {
+                    resultElement.innerText = 'Incorreto, tente novamente.';
+                }
+                currentQuestionIndex++;
+                document.getElementById('answer').value = '';
+                showQuestion();
+            }
         }
     </script>
 </body>
